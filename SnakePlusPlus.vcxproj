@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="SnakePlusPlus.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SnackVersion01.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
