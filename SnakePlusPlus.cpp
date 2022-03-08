@@ -1,113 +1,150 @@
 #include <iostream>
-#include <conio.h>
+#include <windows.h>
 #include <ctime>
 
 #include "Snake.h"
 #include "Food.h"
 
-#define WIDTH 50
-#define HEIGHT 25
-
 using namespace std;
 
-Snake snake({ WIDTH / 2, HEIGHT / 2 }, 1);
-Food food;
-
+// Variables and arrays declaration
 int score;
 
-void board()
+bool invalidCoord;
+bool gameOver;
+
+Snake snake;
+Food food;
+
+void ClearScreen()
 {
-    COORD snake_pos = snake.get_pos();
-    COORD food_pos = food.get_pos();
+    // Function which cleans the screen without flickering
+    COORD cursorPosition;   cursorPosition.X = 0;   cursorPosition.Y = 0;   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
+}
 
-    vector<COORD> snake_body = snake.get_body();
+void Setup()
+{   // Initialize variables
+    gameOver = false;
 
-    cout << "SCORE : " << score << "\n\n";
+    srand(time(NULL));
 
-    for (int i = 0; i < HEIGHT; i++)
+    food.spawn_food();
+
+    score = 0;
+
+}
+
+void Draw() // Drawing playing field, snake and fruits
+{
+    ClearScreen();
+
+    cout << "\n\n\n\t\t\t\t\t";
+
+    // Draws top border
+    for (int i = 0; i < snake.width + 2; i++)
+        cout << '-';
+    cout << endl;
+
+    for (int i = 0; i < snake.height; i++)
     {
-        cout << "\t\t#";
-        for (int j = 0; j < WIDTH - 2; j++)
+        cout << "\t\t\t\t\t";
+        for (int k = 0; k < snake.width; k++)
         {
-            if (i == 0 || i == HEIGHT - 1) cout << '#';
+            // Left border
+            if (k == 0)
+                cout << '|';
+            // Snake's head
+            if (i == snake.y && k == snake.x)
+                cout << '@';
 
-            else if (i == snake_pos.Y && j + 1 == snake_pos.X) cout << '0';
-            else if (i == food_pos.Y && j + 1 == food_pos.X) cout << '@';
+            // Fruit
+            else if (i == food.fruitY && k == food.fruitX)
+                cout << '*';
 
             else
             {
-                bool isBodyPart = false;
-
-                // Draws snake parts
-                for (int k = 0; k < snake_body.size() - 1; k++)
+                // Checks if there is a tail block with appropriate coordinates and draws it 
+                bool printTail = false;
+                for (int j = 0; j < snake.tailLength; j++)
                 {
-                    if (i == snake_body[k].Y && j + 1 == snake_body[k].X)
+                    if (snake.tailX[j] == k && snake.tailY[j] == i)
                     {
                         cout << 'o';
-                        isBodyPart = true;
-                        break;
+                        printTail = true;
                     }
                 }
 
-                if (!isBodyPart) cout << ' ';
+                // Draws blank space if there is nothing to display
+                if (!printTail)
+                    cout << ' ';
             }
+
+            // Right border
+            if (k == snake.width - 1)
+                cout << '|';
         }
-        cout << "#\n";
+        cout << endl;
     }
+
+    // Draws bottom border
+    cout << "\t\t\t\t\t";
+    for (int i = 0; i < snake.width + 2; i++)
+        cout << '-';
+    cout << endl;
+
+    // Displays player's score
+    cout << "\t\t\t\t\t";
+    cout << "Score: " << score << endl;
+
+}
+
+void Logic()
+{
+    snake.tail_logic();
+
+    snake.move_snake();
+
+    if (snake.tail_collision()) gameOver = true;
+
+    // Detects collision with a fruit
+    if (snake.x == food.fruitX && snake.y == food.fruitY)
+    {
+        score += 1;
+
+        food.spawn_food();
+
+        // Generate new fruit position if it consides with snake's tail position 
+        for (int i = 0; i < snake.tailLength;)
+        {
+            invalidCoord = false;
+            if (snake.tailX[i] == food.fruitX && snake.tailY[i] == food.fruitY)
+            {
+                invalidCoord = true;
+                food.spawn_food();
+                break;
+            }
+            if (!invalidCoord)
+                i++;
+        }
+        snake.tailLength++;
+    }
+
+    snake.wall_collision();
 }
 
 int main()
 {
-    score = 0;
-    srand(time(NULL));
-
-    food.gen_food();
-
-    char game_over = false;
-
-    while (!game_over)
+    Setup();
+    while (!gameOver) // Game mainloop 
     {
-        board();
+        Draw();
 
-        if (_kbhit())
-        {
-            switch (_getch())
-            {
-                /*case 'w':
-                    if (snake.direction != ('d'))
-                        dir = UP;
-                    break;
-                case 'a':
-                    if (dir != RIGHT)
-                        dir = LEFT;
-                    break;
-                case 's':
-                    if (dir != UP)
-                        dir = DOWN;
-                    break;
-                case 'd':
-                    if (dir != LEFT)
-                        dir = RIGHT;
-                    break;*/
+        snake.snake_speed();
 
-            case 'w': snake.direction('u'), Sleep(25); break;
-            case 'a': snake.direction('l'), Sleep(40); break;
-            case 's': snake.direction('d'), Sleep(25); break;
-            case 'd': snake.direction('r'), Sleep(40); break;
-            }
-        }
+        snake.input_move();
 
-        if (snake.collided()) game_over = true;
-
-        if (snake.eaten(food.get_pos()))
-        {
-            food.gen_food();
-            snake.grow();
-            score = score + 10;
-        }
-
-        snake.move_snake();
-
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { 0, 0 });
+        Logic();
     }
+
+    return 0;
 }

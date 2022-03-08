@@ -1,9 +1,11 @@
 #include "Food.h"
+#include <stdlib.h>
 
-void Food::gen_food()
+void Food::spawn_food()
 {
-    pos.X = /*(*/rand() % WIDTH/* - 3) + 1*/;
-    pos.Y = /*(*/rand() % HEIGHT/* - 3) + 1*/;
-}
+    fruitX = rand() % width;
+    fruitY = rand() % height;
 
-COORD Food::get_pos() { return pos; }
+    /*fruitX = (rand() % width - 3) + 1;
+    fruitY = (rand() % height - 3) + 1;*/
+}

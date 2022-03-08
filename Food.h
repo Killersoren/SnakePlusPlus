@@ -1,21 +1,11 @@
-#ifndef FOOD_H
-#define FOOD_H
-
-#include <windows.h>
-#include <cstdio>
-
-#define WIDTH 50
-#define HEIGHT 25
-
+#pragma once
 class Food
 {
-private:
-    COORD pos;
-
 public:
-    void gen_food();
+	const int width = 40;
+	const int height = 20;
 
-    COORD get_pos();
+	int fruitX, fruitY;
+
+	void spawn_food();
 };
-
-#endif // FOOD_H

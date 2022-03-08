@@ -1,61 +1,117 @@
+#include <iostream>
+#include <conio.h>
+#include <windows.h>
+
 #include "Snake.h"
 
-Snake::Snake(COORD pos, int vel)
+Snake::Snake()
 {
-    this->pos = pos;
-    this->vel = vel;
-
-    dir = 'n';
-    len = 1;
-
-    body.push_back(pos);
+    dir = STOP;
+    x = width / 2;
+    y = height / 2;
 }
-
-void Snake::direction(char dir) { this->dir = dir; }
-void Snake::grow() { len++; }
-COORD Snake::get_pos() { return pos; }
-
-vector<COORD> Snake::get_body() { return body; }
 
 void Snake::move_snake()
 {
+    // Changes snake's head coordinates depending on a direction
     switch (dir)
     {
-        /*case LEFT:
-            pos.Y -= vel;
-            break;
-        case RIGHT:
-            pos.Y += vel;
-            break;
-        case UP:
-            pos.X -= vel;
-            break;
-        case DOWN:
-            pos.X += vel;
-            break;*/
-    case 'u': pos.Y -= vel; break;
-    case 'd': pos.Y += vel; break;
-    case 'l': pos.X -= vel; break;
-    case 'r': pos.X += vel; break;
+    case LEFT:
+        x--;
+        break;
+    case RIGHT:
+        x++;
+        break;
+    case UP:
+        y--;
+        break;
+    case DOWN:
+        y++;
+        break;
     }
-
-    body.push_back(pos);
-    if (body.size() > len) body.erase(body.begin());
 }
 
-bool Snake::collided()
+void Snake::input_move()
 {
-    if (pos.X < 1 || pos.X > WIDTH - 2 || pos.Y < 1 || pos.Y > HEIGHT - 2) return true;
-
-    for (int i = 0; i < len - 1; i++)
+    // Changes snake's direction depending on the button pressed and doesn't allow player to change direction in invalid way 
+    if (_kbhit())
     {
-        if (pos.X == body[i].X && pos.Y == body[i].Y) return true;
+        switch (_getch())
+        {
+        case 'w':
+            if (dir != DOWN)
+                dir = UP;
+            break;
+        case 'a':
+            if (dir != RIGHT)
+                dir = LEFT;
+            break;
+        case 's':
+            if (dir != UP)
+                dir = DOWN;
+            break;
+        case 'd':
+            if (dir != LEFT)
+                dir = RIGHT;
+            break;
+        }
     }
-    return false;
 }
 
-bool Snake::eaten(COORD food)
+void Snake::tail_logic()
 {
-    if (pos.X == food.X && pos.Y == food.Y) return true;
+    // Tail logic. Every new eteration we remember previous position of the head and save it to prevX, prevY.
+    // Then we update array with snake's parts positions (change first numbers in arrays tailX, tailY to a new head coordinates).
+    // And after that for each number in arrays except the first ones we make some changes.
+    // Save tailX[i], tailY[i] to prevX2, prevY2 and equate tailX[i], tailY[i] to prevX, prevY.
+    // And equate prevX, prevY to prevX2, prevY2.
+    // Then change rest of the arrays in the same way.
+
+    int prevX = tailX[0];
+    int prevY = tailY[0];
+    int prevX2, prevY2;
+    tailX[0] = x;
+    tailY[0] = y;
+
+    for (int i = 1; i < tailLength; i++)
+    {
+        prevX2 = tailX[i];
+        prevY2 = tailY[i];
+        tailX[i] = prevX;
+        tailY[i] = prevY;
+        prevX = prevX2;
+        prevY = prevY2;
+    }
+}
+
+void Snake::wall_collision()
+{
+    // Changes snake position if it goes through the wall
+    if (y >= height)
+        y = 0;
+    else if (y < 0)
+        y = height - 1;
+    if (x >= width)
+        x = 0;
+    else if (x < 0)
+        x = width - 1;
+}
+
+void Snake::snake_speed()
+{
+    if (dir == UP || dir == DOWN)
+        Sleep(25); // Helps to equate vertical snake movement speed and horizontal speed
+    Sleep(40);
+}
+
+bool Snake::tail_collision()
+{
+    // Detects collision with a tail
+    for (int i = 0; i < tailLength; i++)
+    {
+        if (tailX[i] == x && tailY[i] == y)
+            return true;
+    }
     return false;
+
 }
