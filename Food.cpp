@@ -1,5 +1,7 @@
-#include "Food.h"
 #include <stdlib.h>
+
+#include "Food.h"
+#include "Constants.h"
 
 void Food::spawn_food()
 {

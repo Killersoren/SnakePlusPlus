@@ -2,8 +2,6 @@
 class Snake
 {
 public:
-	const int width = 40;
-	const int height = 20;
 	int x, y;
 	int tailX[100], tailY[100];
 	int tailLength;

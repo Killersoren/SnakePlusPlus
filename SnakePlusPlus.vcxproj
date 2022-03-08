@@ -144,6 +144,7 @@
     <ClCompile Include="SnakePlusPlus.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Food.h" />
     <ClInclude Include="Snake.h" />
   </ItemGroup>

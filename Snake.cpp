@@ -3,6 +3,7 @@
 #include <windows.h>
 
 #include "Snake.h"
+#include "Constants.h"
 
 Snake::Snake()
 {

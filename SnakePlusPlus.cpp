@@ -4,6 +4,7 @@
 
 #include "Snake.h"
 #include "Food.h"
+#include "Constants.h"
 
 using namespace std;
 
@@ -41,14 +42,14 @@ void Draw() // Drawing playing field, snake and fruits
     cout << "\n\n\n\t\t\t\t\t";
 
     // Draws top border
-    for (int i = 0; i < snake.width + 2; i++)
+    for (int i = 0; i < width + 2; i++)
         cout << '-';
     cout << endl;
 
-    for (int i = 0; i < snake.height; i++)
+    for (int i = 0; i < height; i++)
     {
         cout << "\t\t\t\t\t";
-        for (int k = 0; k < snake.width; k++)
+        for (int k = 0; k < width; k++)
         {
             // Left border
             if (k == 0)
@@ -80,7 +81,7 @@ void Draw() // Drawing playing field, snake and fruits
             }
 
             // Right border
-            if (k == snake.width - 1)
+            if (k == width - 1)
                 cout << '|';
         }
         cout << endl;
@@ -88,7 +89,7 @@ void Draw() // Drawing playing field, snake and fruits
 
     // Draws bottom border
     cout << "\t\t\t\t\t";
-    for (int i = 0; i < snake.width + 2; i++)
+    for (int i = 0; i < width + 2; i++)
         cout << '-';
     cout << endl;
 
