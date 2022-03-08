@@ -32,7 +32,6 @@ void Setup()
     food.spawn_food();
 
     score = 0;
-
 }
 
 void Draw() // Drawing playing field, snake and fruits
@@ -94,8 +93,11 @@ void Draw() // Drawing playing field, snake and fruits
     cout << endl;
 
     // Displays player's score
-    cout << "\t\t\t\t\t";
-    cout << "Score: " << score << endl;
+    //cout << "\t\t\t\t\t";
+    cout << "\t\t\t\t\tScore: " << score;
+
+    // Display player's health
+    cout << "\t\t\t Health: " << snake.health << endl;
 
 }
 
@@ -105,7 +107,13 @@ void Logic()
 
     snake.move_snake();
 
-    if (snake.tail_collision()) gameOver = true;
+    if (snake.tail_collision())
+    {
+        snake.health--;
+        
+        if (snake.health <= 0)
+            gameOver = true;
+    }
 
     // Detects collision with a fruit
     if (snake.x == food.fruitX && snake.y == food.fruitY)
@@ -140,7 +148,7 @@ int main()
     {
         Draw();
 
-        snake.snake_speed();
+        snake.speed_snake();
 
         snake.input_move();
 

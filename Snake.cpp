@@ -10,6 +10,7 @@ Snake::Snake()
     dir = STOP;
     x = width / 2;
     y = height / 2;
+    health = 3;
 }
 
 void Snake::move_snake()
@@ -98,7 +99,7 @@ void Snake::wall_collision()
         x = width - 1;
 }
 
-void Snake::snake_speed()
+void Snake::speed_snake()
 {
     if (dir == UP || dir == DOWN)
         Sleep(25); // Helps to equate vertical snake movement speed and horizontal speed
