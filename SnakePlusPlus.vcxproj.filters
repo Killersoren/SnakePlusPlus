@@ -18,5 +18,13 @@
     <ClCompile Include="SnakePlusPlus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InfoBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="InfoBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
