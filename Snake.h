@@ -16,7 +16,9 @@ public:
 	void input_move();
 	void tail_logic();
 	void wall_collision();
-	void speed_snake();
+	void speed_fast();
+	void speed_moderat();
+	void speed_slow();
 
 	bool tail_collision();
 };

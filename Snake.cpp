@@ -99,7 +99,21 @@ void Snake::wall_collision()
         x = width - 1;
 }
 
-void Snake::speed_snake()
+void Snake::speed_fast()
+{
+    if (dir == UP || dir == DOWN)
+        Sleep(6); // Helps to equate vertical snake movement speed and horizontal speed
+    Sleep(10);
+}
+
+void Snake::speed_moderat()
+{
+    if (dir == UP || dir == DOWN)
+        Sleep(12); // Helps to equate vertical snake movement speed and horizontal speed
+    Sleep(20);
+}
+
+void Snake::speed_slow()
 {
     if (dir == UP || dir == DOWN)
         Sleep(25); // Helps to equate vertical snake movement speed and horizontal speed

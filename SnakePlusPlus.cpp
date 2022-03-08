@@ -58,7 +58,7 @@ void Draw() // Drawing playing field, snake and fruits
                 cout << '@';
 
             // Fruit
-            else if (i == food.fruitY && k == food.fruitX)
+            else if (i == food.foodY && k == food.foodX)
                 cout << '*';
 
             else
@@ -116,9 +116,9 @@ void Logic()
     }
 
     // Detects collision with a fruit
-    if (snake.x == food.fruitX && snake.y == food.fruitY)
+    if (snake.x == food.foodX && snake.y == food.foodY)
     {
-        score += 1;
+        score += 10;
 
         food.spawn_food();
 
@@ -126,7 +126,7 @@ void Logic()
         for (int i = 0; i < snake.tailLength;)
         {
             invalidCoord = false;
-            if (snake.tailX[i] == food.fruitX && snake.tailY[i] == food.fruitY)
+            if (snake.tailX[i] == food.foodX && snake.tailY[i] == food.foodY)
             {
                 invalidCoord = true;
                 food.spawn_food();
@@ -148,7 +148,18 @@ int main()
     {
         Draw();
 
-        snake.speed_snake();
+        if (score >= 200)
+        {
+            snake.speed_fast();
+        }
+        else if (score >= 100)
+        {
+            snake.speed_moderat();
+        }
+        else
+        {
+            snake.speed_slow();
+        }
 
         snake.input_move();
 

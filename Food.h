@@ -2,7 +2,7 @@
 class Food
 {
 public:
-	int fruitX, fruitY;
+	int foodX, foodY;
 
 	void spawn_food();
 };
