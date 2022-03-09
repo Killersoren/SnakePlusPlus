@@ -139,11 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="InfoBox.cpp" />
-    <ClCompile Include="SnakePlusPlus.cpp" />
+    <ClInclude Include="InfoBox.h" />
+    <ClInclude Include="Main.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="InfoBox.h" />
+    <ClCompile Include="InfoBox.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

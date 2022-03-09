@@ -1,22 +1,25 @@
+#include "Main.h"
 #include <iostream>
 #include <stdlib.h>
 #include <windows.h>
 #include <conio.h>
 #include <ctime>
 #include "InfoBox.h"
-using namespace SnokePlusPlus;
+
+using namespace std;
 
 // Variables and arrays declaration
 bool gameOver;
 bool invalidCoord;
-const int width = 20;
+const int width = 110;
 const int height = 20;
-int x, y, fruitX, fruitY, score;
+int x, y, fruitX, fruitY; //score;
 int tailX[100], tailY[100];
 int tailLength;
 
 enum Direction { STOP = 0, LEFT, RIGHT, UP, DOWN };
 Direction dir;
+InfoBox infoBox;
 
 void ClearScreen()
 {
@@ -33,7 +36,7 @@ void Setup()
     y = height / 2;
     fruitX = rand() % width;
     fruitY = rand() % height;
-    score = 0;
+    infoBox.setScore(0);
 
 }
 
@@ -45,6 +48,7 @@ void Draw() // Drawing playing field, snake and fruits
     for (int i = 0; i < width + 2; i++)
         cout << '-';
     cout << endl;
+
 
     for (int i = 0; i < height; i++)
     {
@@ -92,7 +96,8 @@ void Draw() // Drawing playing field, snake and fruits
 
     // Displays player's score
     cout << endl;
-    cout << "Score: " << score << endl;
+    //cout << "Score: " << infoBox.getScore() << endl;
+    infoBox.printInfo();
 
 }
 void Input()
@@ -175,7 +180,9 @@ void Logic()
     // Detects collision with a fruit
     if (x == fruitX && y == fruitY)
     {
-        score += 1;
+        //score += 1;
+        infoBox.setScore(1);
+        
         fruitX = rand() % width;
         fruitY = rand() % height;
         // Generate new fruit position if it consides with snake's tail position 
@@ -218,6 +225,6 @@ int main()
         Logic();
 
     }
-    InfoBox info = InfoBox();
+
     return 0;
 }

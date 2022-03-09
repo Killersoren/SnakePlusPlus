@@ -1,13 +1,21 @@
 #pragma once
-#include <iostream>
-#include <stdlib.h>
-#include <windows.h>
-
+#include <vector>
+#include <string>
 class InfoBox
 {
 
-    // Displays player's score
-    cout << endl;
-    cout << "Score: " << score << endl;
+private:
+	//int life;
+	int score;
+	vector<string> message;
+
+public:
+	int getScore() const;
+	void setScore(int a);
+	//vector<string> getMessage();
+	void setMessage(char a);
+
+	virtual void printInfo();
+
 };
 
