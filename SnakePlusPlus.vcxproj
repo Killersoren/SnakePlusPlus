@@ -139,10 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Food.cpp" />
+    <ClCompile Include="Snake.cpp" />
     <ClCompile Include="SnakePlusPlus.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SnackVersion01.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="Food.h" />
+    <ClInclude Include="Snake.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
