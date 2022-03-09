@@ -5,7 +5,9 @@
 #include "Snake.h"
 #include "Food.h"
 #include "Constants.h"
+#include <irrKlang.h>
 
+using namespace irrklang;
 using namespace std;
 
 // Variables and arrays declaration
@@ -16,6 +18,9 @@ bool gameOver;
 
 Snake snake;
 Food food;
+
+ISoundEngine* engine = createIrrKlangDevice();
+
 
 void ClearScreen()
 {
@@ -101,6 +106,24 @@ void Draw() // Drawing playing field, snake and fruits
 
 }
 
+void EatSound()
+{
+
+    ////engine->play2D("TrumpTale.wav");
+    //engine->play2D("Inception.mp3");
+
+
+    
+        engine->play2D("bell.wav");
+        //int tmp;
+        //cout << "Press 1 + enter to exit";
+        //cin >> tmp;
+      //  engine->drop();
+   
+
+
+}
+
 void Logic()
 {
     snake.tail_logic();
@@ -135,14 +158,18 @@ void Logic()
             if (!invalidCoord)
                 i++;
         }
+        EatSound();
         snake.tailLength++;
     }
 
     snake.wall_collision();
 }
 
+
+
 int main()
 {
+
     Setup();
     while (!gameOver) // Game mainloop 
     {
