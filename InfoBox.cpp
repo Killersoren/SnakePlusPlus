@@ -7,6 +7,22 @@ vector<string>::iterator it;
 
 
 
+int InfoBox::getScore() const
+{
+	return score;
+}
+void InfoBox::setScore(int a)
+{
+	score += a;
+}
+int InfoBox::getHealth() const
+{
+	return health;
+}
+void InfoBox::setHealth(int b)
+{
+	health += b;
+}
 void InfoBox::setMessage(string a, string b)
 {
 	message = { "Player Score   :  "+ a };
@@ -38,8 +54,8 @@ void InfoBox::setScore(int a)
 
 void InfoBox::printInfo()
 {
-	setMessage(to_string(score), to_string(health));
-	for (it= message.begin(); it < message.end(); it++)
+	setMessage(to_string(getScore()),to_string(getHealth()));
+	for (it = message.begin(); it < message.end(); it++)
 	{
 		cout << *it;
 		cout << '|';

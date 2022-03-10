@@ -9,11 +9,13 @@ class InfoBox
 private:
 	int score;
 	vector<string> message;
-	int health = 3;
+	int health;
 
 public:
 	int getScore() const;
 	void setScore(int a);
+	int getHealth() const;
+	void setHealth(int b);
 	//vector<string> getMessage();
 	void setMessage(string a, string b);
 
