@@ -4,8 +4,10 @@
 
 #include "Snake.h"
 #include "Food.h"
+#include "HealthFood.h"
 #include "Constants.h"
 #include <irrKlang.h>
+#include <vector>
 
 using namespace irrklang;
 using namespace std;
@@ -17,7 +19,13 @@ bool invalidCoord;
 bool gameOver;
 
 Snake snake;
+
 Food food;
+HealthFood foodH;
+
+int number;
+
+ vector<Food> foodList;
 
 ISoundEngine* engine = createIrrKlangDevice();
 
@@ -28,13 +36,55 @@ void ClearScreen()
     COORD cursorPosition;   cursorPosition.X = 0;   cursorPosition.Y = 0;   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
 }
 
+
+//
+//for (size_t i = 0; i < length; i++)
+//{
+//
+//}
+
+
+void SpawnFood()
+{
+    number = rand() % 2;
+
+    cout << number;
+
+    if (number == 0)
+    {
+        food.spawn_food();
+        cout << "test1";
+    }
+
+    else if (number == 1)
+    {
+        foodH.spawn_food();
+        cout << "test2";
+    }
+
+}
+
+void RemoveFood(Food food)
+{
+
+}
+
+void RemoveFoodH(HealthFood food)
+{
+
+}
+
 void Setup()
 {   // Initialize variables
     gameOver = false;
 
+
     srand(time(NULL));
 
-    food.spawn_food();
+
+
+    //food.spawn_food();
+
 
     score = 0;
 }
@@ -65,6 +115,11 @@ void Draw() // Drawing playing field, snake and fruits
             // Fruit
             else if (i == food.foodY && k == food.foodX)
                 cout << '*';
+
+            // Fruit
+            else if (i == foodH.foodY && k == foodH.foodX)
+                cout << 'H';
+
 
             else
             {
@@ -115,6 +170,7 @@ void EatSound()
 
     
         engine->play2D("bell.wav");
+
         //int tmp;
         //cout << "Press 1 + enter to exit";
         //cin >> tmp;
@@ -139,20 +195,40 @@ void Logic()
     }
 
     // Detects collision with a fruit
-    if (snake.x == food.foodX && snake.y == food.foodY)
+    if (snake.x == food.foodX && snake.y == food.foodY  || snake.x == foodH.foodX && snake.y == foodH.foodY)
     {
         score += 10;
 
-        food.spawn_food();
+        SpawnFood();
+
+        //Standard mad spawning
+
+        //number = rand() % 2;
+
+        //cout << number;
+
+        //if (number == 1)
+        //{
+        //    food.spawn_food();
+        //    cout << "test1";
+        //}
+
+        //else
+        //{
+        //    foodH.spawn_food();
+        //    cout << "test2";
+        //}
+
 
         // Generate new fruit position if it consides with snake's tail position 
         for (int i = 0; i < snake.tailLength;)
         {
             invalidCoord = false;
-            if (snake.tailX[i] == food.foodX && snake.tailY[i] == food.foodY)
+            if (snake.tailX[i] == food.foodX && snake.tailY[i] == food.foodY || snake.tailX[i] == foodH.foodX && snake.tailY[i] == foodH.foodY)
             {
                 invalidCoord = true;
-                food.spawn_food();
+                //food.spawn_food();
+                SpawnFood();
                 break;
             }
             if (!invalidCoord)
@@ -191,6 +267,8 @@ int main()
         snake.input_move();
 
         Logic();
+
+
     }
 
     return 0;
