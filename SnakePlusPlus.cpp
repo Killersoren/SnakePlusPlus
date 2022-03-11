@@ -8,7 +8,7 @@
 
 using namespace std;
 
-// Variables and arrays declaration
+int choice;
 int score;
 
 bool invalidCoord;
@@ -28,6 +28,7 @@ void Setup()
     gameOver = false;
 
     srand(time(NULL));
+    //srand(time(static_cast<unsigned>(0)));
 
     food.spawn_food();
 
@@ -141,9 +142,11 @@ void Logic()
     snake.wall_collision();
 }
 
-int main()
+void PlayGame() 
 {
+    std::cout << "Game started\n";
     Setup();
+
     while (!gameOver) // Game mainloop 
     {
         Draw();
@@ -165,6 +168,53 @@ int main()
 
         Logic();
     }
+}
 
-    return 0;
+int main()
+{
+    do
+    {
+        std::cout << "0. Quit" << std::endl << "1. Play Game\n";
+        std::cin >> choice;
+
+        switch (choice)
+        {
+            case 0:
+                std::cout << "Quitting game\n";
+                return 0;
+            case 1:
+            {
+                //ClearScreen();
+
+                PlayGame();
+            }
+            break;
+        }
+    }
+
+    while (choice != 0);
+
+    //while (!gameOver && choice != 0); // Game mainloop 
+    //{
+    //    Draw();
+
+    //    if (score >= 200)
+    //    {
+    //        snake.speed_fast();
+    //    }
+    //    else if (score >= 100)
+    //    {
+    //        snake.speed_moderat();
+    //    }
+    //    else
+    //    {
+    //        snake.speed_slow();
+    //    }
+
+    //    snake.input_move();
+
+    //    Logic();
+    //}
+
+    //return 0;
 }

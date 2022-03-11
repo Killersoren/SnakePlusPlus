@@ -7,10 +7,20 @@
 
 Snake::Snake()
 {
-    dir = STOP;
-    x = width / 2;
-    y = height / 2;
-    health = 3;
+    this->dir = STOP;
+    this->x = width / 2;
+    this->y = height / 2;
+    this->health = new int(0);
+}
+
+Snake::Snake(int health)
+{
+    this->health = new int(health);
+}
+
+Snake::~Snake()
+{
+    delete health;
 }
 
 void Snake::move_snake()
