@@ -10,13 +10,13 @@ Snake::Snake()
     this->dir = STOP;
     this->x = width / 2;
     this->y = height / 2;
-    this->health = new int(0);
+    //this->health = new int(0);
 }
 
-Snake::Snake(int health)
-{
-    this->health = new int(health);
-}
+//Snake::Snake(int health)
+//{
+//    this->health = new int(health);
+//}
 
 Snake::~Snake()
 {

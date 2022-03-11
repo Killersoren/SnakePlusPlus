@@ -98,12 +98,17 @@ void Draw() // Drawing playing field, snake and fruits
     cout << "\t\t\t\t\tScore: " << score;
 
     // Display player's health
-    cout << "\t\t\t Health: " << snake.health << endl;
+    int ba = *snake.health;
+    cout << "\t\t\t Health: " << ba << endl;
 
 }
 
 void Logic()
 {
+
+    /*if (ba <= 0)
+        snake.~Snake();*/
+
     snake.tail_logic();
 
     snake.move_snake();
@@ -172,27 +177,30 @@ void PlayGame()
 
 int main()
 {
-    do
-    {
-        std::cout << "0. Quit" << std::endl << "1. Play Game\n";
-        std::cin >> choice;
+    //do
+    //{
+    //    std::cout << "0. Quit" << std::endl << "1. Play Game\n";
+    //    std::cin >> choice;
 
-        switch (choice)
-        {
-            case 0:
-                std::cout << "Quitting game\n";
-                return 0;
-            case 1:
-            {
-                //ClearScreen();
+    //    switch (choice)
+    //    {
+    //        case 0:
+    //            std::cout << "Quitting game\n";
+    //            return 0;
+    //        case 1:
+    //        {
+    //            //ClearScreen();
 
-                PlayGame();
-            }
-            break;
-        }
-    }
+    //            PlayGame();
+    //        }
+    //        break;
+    //    }
+    //}
 
-    while (choice != 0);
+    //while (choice != 0);
+
+    PlayGame();
+
 
     //while (!gameOver && choice != 0); // Game mainloop 
     //{
