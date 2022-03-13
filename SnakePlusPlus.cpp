@@ -20,12 +20,14 @@ bool gameOver;
 
 Snake snake;
 
-Food food;
-HealthFood foodH;
+Food* food = new Food;
+HealthFood* foodH = new HealthFood;
 
 int number;
 
- vector<Food> foodList;
+ vector<Food*> foodList;
+ vector<int> intList;
+
 
 ISoundEngine* engine = createIrrKlangDevice();
 
@@ -44,25 +46,45 @@ void ClearScreen()
 //}
 
 
+
 void SpawnFood()
 {
     number = rand() % 2;
 
     cout << number;
 
+
+
     if (number == 0)
     {
-        food.spawn_food();
-        cout << "test1";
+        Food* tmpFood = new Food;
+
+        foodList.push_back(tmpFood);
+
+        //food.spawn_food();
+
+        tmpFood->spawn_food();
+
+        cout << "test1 \n";
+
     }
 
     else if (number == 1)
     {
-        foodH.spawn_food();
-        cout << "test2";
+        HealthFood* tmpFoodH = new HealthFood;
+
+        foodList.push_back(tmpFoodH);
+
+        //foodH.spawn_food();
+        tmpFoodH->spawn_food();
+        cout << "test2 \n";
+
+
     }
 
+
 }
+
 
 void RemoveFood(Food food)
 {
@@ -78,6 +100,7 @@ void Setup()
 {   // Initialize variables
     gameOver = false;
 
+    cout << foodList.capacity();
 
     srand(time(NULL));
 
@@ -112,13 +135,25 @@ void Draw() // Drawing playing field, snake and fruits
             if (i == snake.y && k == snake.x)
                 cout << '@';
 
+            //// Fruit
+            //else if (i == food.foodY && k == food.foodX)
+
+            //    cout << '*';
+
+            //// Fruit
+            //else if (i == foodH.foodY && k == foodH.foodX)
+            //    cout << 'H';
+
+
             // Fruit
-            else if (i == food.foodY && k == food.foodX)
+            else if (i == food->foodY && k == food->foodX)
+
                 cout << '*';
 
             // Fruit
-            else if (i == foodH.foodY && k == foodH.foodX)
+            else if (i == foodH->foodY && k == foodH->foodX)
                 cout << 'H';
+
 
 
             else
@@ -195,7 +230,7 @@ void Logic()
     }
 
     // Detects collision with a fruit
-    if (snake.x == food.foodX && snake.y == food.foodY  || snake.x == foodH.foodX && snake.y == foodH.foodY)
+    if (snake.x == food->foodX && snake.y == food->foodY  || snake.x == foodH->foodX && snake.y == foodH->foodY)
     {
         score += 10;
 
@@ -224,7 +259,7 @@ void Logic()
         for (int i = 0; i < snake.tailLength;)
         {
             invalidCoord = false;
-            if (snake.tailX[i] == food.foodX && snake.tailY[i] == food.foodY || snake.tailX[i] == foodH.foodX && snake.tailY[i] == foodH.foodY)
+            if (snake.tailX[i] == food->foodX && snake.tailY[i] == food->foodY || snake.tailX[i] == foodH->foodX && snake.tailY[i] == foodH->foodY)
             {
                 invalidCoord = true;
                 //food.spawn_food();
@@ -247,6 +282,7 @@ int main()
 {
 
     Setup();
+    SpawnFood();
     while (!gameOver) // Game mainloop 
     {
         Draw();
@@ -267,7 +303,7 @@ int main()
         snake.input_move();
 
         Logic();
-
+        //test();
 
     }
 
