@@ -86,9 +86,9 @@ void Snake::tail_logic()
     }
 }
 
+
 void Snake::wall_collision()
 {
-    // Changes snake position if it goes through the wall
     if (y >= height)
         y = 0;
     else if (y < 0)

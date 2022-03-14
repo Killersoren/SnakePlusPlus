@@ -6,7 +6,6 @@ vector<string>::iterator it;
 //vector<string> Message;
 
 
-
 int InfoBox::getScore() const
 {
 	return score;

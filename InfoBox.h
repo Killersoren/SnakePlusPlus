@@ -9,7 +9,7 @@ class InfoBox
 private:
 	int score;
 	vector<string> message;
-	int health;
+	int health{};
 
 public:
 	int getScore() const;

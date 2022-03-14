@@ -24,31 +24,40 @@ InfoBox infoBox;
 void ClearScreen()
 {
     // Function which cleans the screen without flickering
-    COORD cursorPosition;   cursorPosition.X = 0;   cursorPosition.Y = 0;   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
+   COORD cursorPosition;   cursorPosition.X = 0;   cursorPosition.Y = 0;   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
 }
 
+/// <summary>
+/// Setup default game variables, gameover and food spawn 
+/// </summary>
 void Setup()
 {   // Initialize variables
     gameOver = false;
 
-    srand(time(NULL));
+    //???
+    //srand(time(NULL));
 
     food.spawn_food();
 
+    
     score = 0;
-
     infoBox.setScore(0);
     infoBox.setHealth(3);
 
 }
 
-void Draw() // Drawing playing field, snake and fruits
+/// <summary>
+/// Draws grid, food, infobox ,and player
+/// </summary>
+void Draw()
 {
     ClearScreen();
 
+    // \n = nextline
+    // \t = empty space
     cout << "\n\n\n\t\t\t\t\t";
 
-    // Draws top border
+    // Top border
     for (int i = 0; i < width + 2; i++)
         cout << '-';
     cout << endl;
@@ -61,7 +70,7 @@ void Draw() // Drawing playing field, snake and fruits
             // Left border
             if (k == 0)
                 cout << '|';
-            // Snake's head
+            // Player
             if (i == snake.y && k == snake.x)
                 cout << 'S';
 
@@ -110,8 +119,32 @@ void Draw() // Drawing playing field, snake and fruits
 
 }
 
+
+bool Gameover()
+{
+    if (snake.tail_collision())
+    {
+        snake.health--;
+        infoBox.setHealth(-1);
+        if (snake.health <= 0)
+            gameOver = true;
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+/// <summary>
+/// Handles collissions with walls, food, and tail. 
+/// Checks player health 
+/// </summary>
 void Logic()
 {
+
     snake.tail_logic();
 
     snake.move_snake();
@@ -149,6 +182,7 @@ void Logic()
         snake.tailLength++;
     }
 
+    
     snake.wall_collision();
 }
 

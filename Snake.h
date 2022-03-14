@@ -4,7 +4,7 @@ class Snake
 public:
 	int x, y;
 	int tailX[100], tailY[100];
-	int tailLength;
+	int tailLength{0};
 	int health;
 
 	enum Direction { STOP = 0, LEFT, RIGHT, UP, DOWN };
@@ -15,6 +15,10 @@ public:
 	void move_snake();
 	void input_move();
 	void tail_logic();
+
+	/// <summary>
+	/// Changes player position to the oposites site of colliding wall
+	/// </summary>
 	void wall_collision();
 	void speed_fast();
 	void speed_moderat();
