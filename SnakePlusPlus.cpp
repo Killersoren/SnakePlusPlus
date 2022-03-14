@@ -246,7 +246,21 @@ void Logic()
     // Detects collision with a fruit
     if (snake.x == foodList.at(0)->foodX && snake.y == foodList.at(0)->foodY || snake.x == foodH->foodX && snake.y == foodH->foodY)
     {
-        score += 10;
+        if (foodList.at(0)->specialFruit)
+        {
+            if (snake.health < 5)
+            {
+                snake.health += 1;
+            }
+            else
+            {
+                score += 5;
+            }
+        }
+        else
+        {
+            score += 10;
+        }
         RemoveFood();
         SpawnFood();
 
