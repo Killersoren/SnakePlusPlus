@@ -5,7 +5,10 @@
 #include "Snake.h"
 
 
-
-void HealthFood::heal()
+void HealthFood::spawn_food()
 {
+    foodX = rand() % width;
+    foodY = rand() % height;
+    specialFruit = true;
 }
+

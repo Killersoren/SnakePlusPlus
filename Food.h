@@ -4,5 +4,7 @@ class Food
 public:
 	int foodX, foodY;
 
-	void spawn_food();
+	virtual	void spawn_food();
+
+	bool specialFruit;
 };

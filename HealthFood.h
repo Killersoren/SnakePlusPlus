@@ -5,10 +5,11 @@ using namespace std;
 class HealthFood : public Food
 {
 
+
 public:
 
 	//Snake player;
-
+	virtual	void spawn_food();
 	void heal(/*Snake player*/);
 };
 

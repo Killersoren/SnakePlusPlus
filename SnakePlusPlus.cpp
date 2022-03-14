@@ -88,8 +88,10 @@ void SpawnFood()
 }
 
 
-void RemoveFood(Food food)
+void RemoveFood()
 {
+    delete foodList.at(0);
+    foodList.pop_back();
 
 }
 
@@ -102,7 +104,7 @@ void Setup()
 {   // Initialize variables
     gameOver = false;
 
-    cout << foodList.capacity();
+    cout <<  foodList.capacity();
 
     srand(time(NULL));
 
@@ -147,17 +149,24 @@ void Draw() // Drawing playing field, snake and fruits
             //    cout << 'H';
 
 
-            else if (i == foodList.at(0)->foodY && k == foodList.at(0)->foodX)
-
-                cout << '*';
-            // Fruit
-            else if (i == food->foodY && k == food->foodX)
+            else if (i == foodList.at(0)->foodY && k == foodList.at(0)->foodX && foodList.at(0)->specialFruit == false)
 
                 cout << '*';
 
-            // Fruit
-            else if (i == foodH->foodY && k == foodH->foodX)
+
+            else if (i == foodList.at(0)->foodY && k == foodList.at(0)->foodX && foodList.at(0)->specialFruit == true)
+
                 cout << 'H';
+
+           
+            //// Fruit
+            //else if (i == food->foodY && k == food->foodX)
+
+            //    cout << '*';
+
+            //// Fruit
+            //else if (i == foodH->foodY && k == foodH->foodX)
+            //    cout << 'H';
 
 
 
@@ -238,8 +247,7 @@ void Logic()
     if (snake.x == foodList.at(0)->foodX && snake.y == foodList.at(0)->foodY || snake.x == foodH->foodX && snake.y == foodH->foodY)
     {
         score += 10;
-
-       foodList.pop_back();
+        RemoveFood();
         SpawnFood();
 
         //Standard mad spawning
@@ -288,7 +296,9 @@ int main()
 {
 
     Setup();
+   // SpawnFood();
     SpawnFood();
+
     while (!gameOver) // Game mainloop 
     {
         Draw();
