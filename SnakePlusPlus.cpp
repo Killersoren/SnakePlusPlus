@@ -64,6 +64,8 @@ void SpawnFood()
         //food.spawn_food();
 
         tmpFood->spawn_food();
+        cout << tmpFood->foodX;
+        cout << tmpFood->foodY;
 
         cout << "test1 \n";
 
@@ -145,6 +147,9 @@ void Draw() // Drawing playing field, snake and fruits
             //    cout << 'H';
 
 
+            else if (i == foodList.at(0)->foodY && k == foodList.at(0)->foodX)
+
+                cout << '*';
             // Fruit
             else if (i == food->foodY && k == food->foodX)
 
@@ -230,10 +235,11 @@ void Logic()
     }
 
     // Detects collision with a fruit
-    if (snake.x == food->foodX && snake.y == food->foodY  || snake.x == foodH->foodX && snake.y == foodH->foodY)
+    if (snake.x == foodList.at(0)->foodX && snake.y == foodList.at(0)->foodY || snake.x == foodH->foodX && snake.y == foodH->foodY)
     {
         score += 10;
 
+       foodList.pop_back();
         SpawnFood();
 
         //Standard mad spawning

@@ -6,7 +6,7 @@
 void Food::spawn_food()
 {
     foodX = rand() % width;
-    foodY = rand() % height;
+     foodY = rand() % height;
 
     /*fruitX = (rand() % width - 3) + 1;
     fruitY = (rand() % height - 3) + 1;*/
