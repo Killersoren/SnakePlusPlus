@@ -120,22 +120,22 @@ void Draw()
 }
 
 
-bool Gameover()
-{
-    if (snake.tail_collision())
-    {
-        snake.health--;
-        infoBox.setHealth(-1);
-        if (snake.health <= 0)
-            gameOver = true;
-
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
+//bool Gameover()
+//{
+//    if (snake.tail_collision())
+//    {
+//        snake.health--;
+//        infoBox.setHealth(-1);
+//        if (snake.health <= 0)
+//            gameOver = true;
+//
+//        return true;
+//    }
+//    else
+//    {
+//        return false;
+//    }
+//}
 
 
 /// <summary>
