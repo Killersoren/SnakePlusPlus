@@ -91,6 +91,7 @@ void SpawnFood()
 void RemoveFood()
 {
     delete foodList.at(0);
+    foodList.at(0) = NULL;
     foodList.pop_back();
 
 }
