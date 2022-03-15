@@ -342,6 +342,12 @@ void PlayGame()
 
         Logic();
     }
+
+    if (gameOver)
+    {
+        RemoveFood();
+        ba = 3;
+    }
 }
 
 int main()
