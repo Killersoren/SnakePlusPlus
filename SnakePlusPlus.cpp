@@ -18,7 +18,8 @@ int score;
 bool invalidCoord;
 bool gameOver;
 
-Snake snake;
+Snake* snake = new Snake();
+
 
 Food* food = new Food;
 HealthFood* foodH = new HealthFood;
@@ -209,7 +210,7 @@ void Draw() // Drawing playing field, snake and fruits
 
     // Display player's health
     //int ba = *snake->health;
-    cout << "\t\t\t Health: " << ba << endl;
+    cout << "\t\t\t Health: " << snake->health << endl;
 
 }
 
@@ -240,20 +241,20 @@ void Logic()
 
     if (snake->tail_collision())
     {
-        ba--;
-        
-        if (ba <= -1)
+        snake->health--;
+
+        if (snake->health <= -1)
             gameOver = true;
     }
 
     // Detects collision with a fruit
-    if (snake.x == foodList.at(0)->foodX && snake.y == foodList.at(0)->foodY || snake.x == foodH->foodX && snake.y == foodH->foodY)
+    if (snake->x == foodList.at(0)->foodX && snake->y == foodList.at(0)->foodY || snake->x == foodH->foodX && snake->y == foodH->foodY)
     {
         if (foodList.at(0)->specialFruit)
         {
-            if (snake.health < 5)
+            if (snake->health < 5)
             {
-                snake.health += 1;
+                snake->health += 1;
             }
             else
             {
@@ -290,7 +291,7 @@ void Logic()
         for (int i = 0; i < snake->tailLength;)
         {
             invalidCoord = false;
-            if (snake.tailX[i] == food->foodX && snake.tailY[i] == food->foodY || snake.tailX[i] == foodH->foodX && snake.tailY[i] == foodH->foodY)
+            if (snake->tailX[i] == food->foodX && snake->tailY[i] == food->foodY || snake->tailX[i] == foodH->foodX && snake->tailY[i] == foodH->foodY)
             {
                 invalidCoord = true;
                 //food.spawn_food();
@@ -301,7 +302,7 @@ void Logic()
                 i++;
         }
         EatSound();
-        snake.tailLength++;
+       // snake.tailLength++;
         snake->tailLength++;
     }
 
