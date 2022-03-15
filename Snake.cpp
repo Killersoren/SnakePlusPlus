@@ -10,7 +10,12 @@ Snake::Snake()
     dir = STOP;
     x = width / 2;
     y = height / 2;
-    health = 3;
+}
+
+Snake::~Snake()
+{
+    std::cout << "Destructor called";
+    delete health;
 }
 
 void Snake::move_snake()

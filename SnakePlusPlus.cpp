@@ -13,15 +13,22 @@ using namespace irrklang;
 using namespace std;
 
 // Variables and arrays declaration
+int choice;
 int score;
 
 bool invalidCoord;
 bool gameOver;
 
-Snake snake;
+Snake *snake = new Snake();
 
 Food* food = new Food;
 HealthFood* foodH = new HealthFood;
+
+int ba = *snake->health;
+
+//Failed attempt to make menu items into pointers
+//string *a = new string("0. Quit");
+//string *b = new string("1. Play Game");
 
 int number;
 
@@ -137,7 +144,7 @@ void Draw() // Drawing playing field, snake and fruits
             if (k == 0)
                 cout << '|';
             // Snake's head
-            if (i == snake.y && k == snake.x)
+            if (i == snake->y && k == snake->x)
                 cout << '@';
 
             //// Fruit
@@ -175,9 +182,9 @@ void Draw() // Drawing playing field, snake and fruits
             {
                 // Checks if there is a tail block with appropriate coordinates and draws it 
                 bool printTail = false;
-                for (int j = 0; j < snake.tailLength; j++)
+                for (int j = 0; j < snake->tailLength; j++)
                 {
-                    if (snake.tailX[j] == k && snake.tailY[j] == i)
+                    if (snake->tailX[j] == k && snake->tailY[j] == i)
                     {
                         cout << 'o';
                         printTail = true;
@@ -207,7 +214,7 @@ void Draw() // Drawing playing field, snake and fruits
     cout << "\t\t\t\t\tScore: " << score;
 
     // Display player's health
-    cout << "\t\t\t Health: " << snake.health << endl;
+    cout << "\t\t\t Health: " << ba << endl;
 
 }
 
@@ -232,26 +239,26 @@ void EatSound()
 
 void Logic()
 {
-    snake.tail_logic();
+    snake->tail_logic();
 
-    snake.move_snake();
+    snake->move_snake();
 
-    if (snake.tail_collision())
+    if (snake->tail_collision())
     {
-        snake.health--;
+        ba--;
         
-        if (snake.health <= 0)
+        if (ba <= -1)
             gameOver = true;
     }
 
     // Detects collision with a fruit
-    if (snake.x == foodList.at(0)->foodX && snake.y == foodList.at(0)->foodY || snake.x == foodH->foodX && snake.y == foodH->foodY)
+    if (snake->x == foodList.at(0)->foodX && snake->y == foodList.at(0)->foodY || snake->x == foodH->foodX && snake->y == foodH->foodY)
     {
         if (foodList.at(0)->specialFruit)
         {
-            if (snake.health < 5)
+            if (ba < 5)
             {
-                snake.health += 1;
+                ba += 1;
             }
             else
             {
@@ -285,10 +292,10 @@ void Logic()
 
 
         // Generate new fruit position if it consides with snake's tail position 
-        for (int i = 0; i < snake.tailLength;)
+        for (int i = 0; i < snake->tailLength;)
         {
             invalidCoord = false;
-            if (snake.tailX[i] == food->foodX && snake.tailY[i] == food->foodY || snake.tailX[i] == foodH->foodX && snake.tailY[i] == foodH->foodY)
+            if (snake->tailX[i] == food->foodX && snake->tailY[i] == food->foodY || snake->tailX[i] == foodH->foodX && snake->tailY[i] == foodH->foodY)
             {
                 invalidCoord = true;
                 //food.spawn_food();
@@ -299,44 +306,80 @@ void Logic()
                 i++;
         }
         EatSound();
-        snake.tailLength++;
+        snake->tailLength++;
     }
 
-    snake.wall_collision();
+    snake->wall_collision();
 }
 
-
-
-int main()
+void PlayGame()
 {
-
+    //std::cout << "Game started\n";
     Setup();
-   // SpawnFood();
+
     SpawnFood();
 
-    while (!gameOver) // Game mainloop 
+    while (!gameOver) // Game mainloop
     {
         Draw();
 
+        
+
         if (score >= 200)
         {
-            snake.speed_fast();
+            snake->speed_fast();
         }
         else if (score >= 100)
         {
-            snake.speed_moderat();
+            snake->speed_moderat();
         }
         else
         {
-            snake.speed_slow();
+            snake->speed_slow();
         }
 
-        snake.input_move();
+        snake->input_move();
 
         Logic();
-        //test();
+    }
+}
 
+int main()
+{
+    //Failed attempt to make menu items into pointers
+    /*string *a = new string("0. Quit");
+    string *b = new string("1. Play Game");*/
+
+    //Main menu
+    do
+    {
+        //Failed attempt to make menu items into pointers
+        //std::cout << a << std::endl << b;
+
+        std::cout << "0. Quit" << std::endl << "1. Play Game";
+        std::cin >> choice;
+
+        //Failed attempt to make menu items into pointers
+        /*delete a;
+        delete b;*/
+
+        switch (choice)
+        {
+        case 0:
+            std::cout << "Quitting game\n";
+            return 0;
+        case 1:
+        {
+            if (snake)
+                delete snake;
+
+            snake = new Snake();
+
+            PlayGame();
+        }
+        break;
+        }
     }
 
-    return 0;
+    while (choice != 0);
 }
