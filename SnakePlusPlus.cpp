@@ -325,7 +325,8 @@ void Logic()
 
 void PlayGame()
 {
-    //std::cout << "Game started\n";
+    std::cout << std::endl << "Game started" << std::endl;
+
     Setup();
 
     SpawnFood();
@@ -373,7 +374,7 @@ int main()
         //Failed attempt to make menu items into pointers
         //std::cout << a << std::endl << b;
 
-        std::cout << "0. Quit" << std::endl << "1. Play Game";
+        std::cout << "0. Quit" << std::endl << "1. Play Game" << std::endl;
         std::cin >> choice;
 
         //Failed attempt to make menu items into pointers
