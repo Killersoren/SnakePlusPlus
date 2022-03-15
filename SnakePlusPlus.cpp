@@ -313,6 +313,7 @@ void PlayGame()
 {
     std::cout << "Game started\n";
     Setup();
+    SpawnFood();
 
     while (!gameOver) // Game mainloop 
     {
