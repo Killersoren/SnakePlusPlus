@@ -8,6 +8,7 @@
 #include "Constants.h"
 #include <irrKlang.h>
 #include <vector>
+#include "InfoBox.h"
 
 using namespace irrklang;
 using namespace std;
@@ -25,6 +26,7 @@ Food* food = new Food;
 HealthFood* foodH = new HealthFood;
 
 int health = *snake->health;
+//InfoBox *infoBox = new InfoBox;
 
 //Failed attempt to make menu items into pointers
 //string *a = new string("0. Quit");
@@ -68,13 +70,12 @@ void SpawnFood()
 
         foodList.push_back(tmpFood);
 
-        //food.spawn_food();
-
         tmpFood->spawn_food();
-        cout << tmpFood->foodX;
-        cout << tmpFood->foodY;
+        cout << "defaultFood \n";
+        cout << tmpFood->foodX << "-x";
+        cout << "\n";
+        cout << tmpFood->foodY << "-y";
 
-        cout << "test1 \n";
 
     }
 
@@ -84,11 +85,11 @@ void SpawnFood()
 
         foodList.push_back(tmpFoodH);
 
-        //foodH.spawn_food();
         tmpFoodH->spawn_food();
-        cout << "test2 \n";
-
-
+        cout << "SpecialtFood \n";
+        cout << tmpFoodH->foodX << "-x";
+        cout << "\n";
+        cout << tmpFoodH->foodY << "-y";
     }
 
 
@@ -112,16 +113,16 @@ void Setup()
 {   // Initialize variables
     gameOver = false;
 
-    cout <<  foodList.capacity();
+   // cout <<  foodList.capacity() ;
 
     srand(time(NULL));
 
-
-
+    score = 0;
+   // infoBox.setScore(0);
+    //infoBox.setHealth(3);
     //food.spawn_food();
 
 
-    score = 0;
 }
 
 void Draw() // Drawing playing field, snake and fruits
@@ -215,6 +216,7 @@ void Draw() // Drawing playing field, snake and fruits
 
     // Display player's health
     cout << "\t\t\t Health: " << health << endl;
+    //infoBox.printInfo();
 
 }
 
@@ -246,7 +248,10 @@ void Logic()
     if (snake->tail_collision())
     {
         health--;
-        
+        //infoBox.setHealth(-1);
+
+        //if (infoBox.getHealth() <= -1)
+        //    gameOver = true;
         if (health <= -1)
             gameOver = true;
     }
@@ -259,15 +264,21 @@ void Logic()
             if (health < 5)
             {
                 health += 1;
+                //infoBox.setHealth(1);
+
             }
             else
             {
                 score += 5;
+                //infoBox.setScore(5);
+
             }
         }
         else
         {
             score += 10;
+            //infoBox.setScore(10);
+
         }
         RemoveFood();
         SpawnFood();
