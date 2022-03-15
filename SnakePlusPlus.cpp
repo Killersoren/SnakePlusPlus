@@ -85,11 +85,6 @@ void RemoveFood()
 
 }
 
-//void RemoveFoodH(HealthFood food)
-//{
-//
-//}
-
 void Setup()
 {   // Initialize variables
     gameOver = false;
@@ -129,14 +124,6 @@ void Draw() // Drawing playing field, snake and fruits
             if (i == snake->y && k == snake->x)
                 cout << '@';
 
-            //// Fruit
-            //else if (i == food.foodY && k == food.foodX)
-
-            //    cout << '*';
-
-            //// Fruit
-            //else if (i == foodH.foodY && k == foodH.foodX)
-            //    cout << 'H';
             else if (i == foodList.at(0)->foodY && k == foodList.at(0)->foodX && foodList.at(0)->specialFruit == false)
 
                 cout << '*';
@@ -187,21 +174,7 @@ void Draw() // Drawing playing field, snake and fruits
 
 void EatSound()
 {
-
-    ////engine->play2D("TrumpTale.wav");
-    //engine->play2D("Inception.mp3");
-
-
-    
         engine->play2D("bell.wav");
-
-        //int tmp;
-        //cout << "Press 1 + enter to exit";
-        //cin >> tmp;
-      //  engine->drop();
-   
-
-
 }
 
 void Logic()
@@ -230,13 +203,11 @@ void Logic()
             {
                 health += 1;
                 //infoBox.setHealth(1);
-
             }
             else
             {
                 score += 5;
                 //infoBox.setScore(5);
-
             }
         }
         else
