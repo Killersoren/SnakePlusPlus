@@ -24,7 +24,7 @@ Snake *snake = new Snake();
 Food* food = new Food;
 HealthFood* foodH = new HealthFood;
 
-int ba = *snake->health;
+int health = *snake->health;
 
 //Failed attempt to make menu items into pointers
 //string *a = new string("0. Quit");
@@ -214,7 +214,7 @@ void Draw() // Drawing playing field, snake and fruits
     cout << "\t\t\t\t\tScore: " << score;
 
     // Display player's health
-    cout << "\t\t\t Health: " << ba << endl;
+    cout << "\t\t\t Health: " << health << endl;
 
 }
 
@@ -245,9 +245,9 @@ void Logic()
 
     if (snake->tail_collision())
     {
-        ba--;
+        health--;
         
-        if (ba <= -1)
+        if (health <= -1)
             gameOver = true;
     }
 
@@ -256,9 +256,9 @@ void Logic()
     {
         if (foodList.at(0)->specialFruit)
         {
-            if (ba < 5)
+            if (health < 5)
             {
-                ba += 1;
+                health += 1;
             }
             else
             {
@@ -346,7 +346,7 @@ void PlayGame()
     if (gameOver)
     {
         RemoveFood();
-        ba = 3;
+        health = 3;
     }
 }
 
