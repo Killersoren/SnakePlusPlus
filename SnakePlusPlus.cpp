@@ -40,7 +40,7 @@ ISoundEngine* engine = createIrrKlangDevice();
 
 void ClearScreen()
 {
-    // Function which cleans the screen without flickering
+    // Function which cleans the screen with little flickering
     COORD cursorPosition;   cursorPosition.X = 0;   cursorPosition.Y = 0;   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
 }
 
@@ -101,7 +101,7 @@ void Setup()
 
 }
 
-void Draw() // Drawing playing field, snake and fruits
+void Draw() // Drawing playing field, snake and food
 {
     ClearScreen();
 
@@ -124,8 +124,10 @@ void Draw() // Drawing playing field, snake and fruits
             if (i == snake->y && k == snake->x)
                 cout << '@';
 
+            // Food which gives tail
             else if (i == foodList.at(0)->foodY && k == foodList.at(0)->foodX && foodList.at(0)->specialFruit == false)
 
+            // Food which gives health
                 cout << '*';
             else if (i == foodList.at(0)->foodY && k == foodList.at(0)->foodX && foodList.at(0)->specialFruit == true)
 
@@ -168,6 +170,8 @@ void Draw() // Drawing playing field, snake and fruits
 
     // Display player's health
     cout << "\t\t\t Health: " << health << endl;
+
+    //Display infobox with score and health
     //infoBox.printInfo();
 
 }
@@ -194,7 +198,7 @@ void Logic()
             gameOver = true;
     }
 
-    // Detects collision with a fruit
+    // Detects collision with a food
     if (snake->x == foodList.at(0)->foodX && snake->y == foodList.at(0)->foodY || snake->x == foodH->foodX && snake->y == foodH->foodY)
     {
         if (foodList.at(0)->specialFruit)
