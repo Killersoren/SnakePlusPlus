@@ -20,6 +20,10 @@ Food food;
 
 int ba = *snake->health;
 
+// A failed try to make the menu strings into pointers
+//string *a = new string("0. Quit");
+//string *b = new string("1. Play Game");
+
 void ClearScreen()
 {
     // Function which cleans the screen without flickering
@@ -178,8 +182,15 @@ int main()
 {
     do
     {
+        // A failed try to make the menu strings into pointers
+        // std::cout << *a << std::endl << *b;
+
         std::cout << "0. Quit" << std::endl << "1. Play Game\n";
         std::cin >> choice;
+
+        // A failed try to make the menu strings into pointers
+        /*delete a;
+        delete b;*/
 
         switch (choice)
         {
