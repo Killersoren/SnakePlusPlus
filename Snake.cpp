@@ -14,13 +14,14 @@ Snake::Snake()
 
 Snake::~Snake()
 {
-    std::cout << "Destructor called";
+    std::cout << "\t\t\t\t\t\t\t\t\t\t\t" << "Snake Destructor called" << "\n";
     delete health;
 }
 
 void Snake::move_snake()
 {
     // Changes snake's head coordinates depending on a direction
+    
     switch (dir)
     {
     case LEFT:

@@ -4,7 +4,6 @@
 #include "Constants.h"
 #include "Snake.h"
 
-
 void HealthFood::spawn_food()
 {
     foodX = rand() % width;

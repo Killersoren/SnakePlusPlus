@@ -13,7 +13,6 @@
 using namespace irrklang;
 using namespace std;
 
-// Variables and arrays declaration
 int choice;
 int score;
 
@@ -37,9 +36,7 @@ int number;
  vector<Food*> foodList;
  vector<int> intList;
 
-
 ISoundEngine* engine = createIrrKlangDevice();
-
 
 void ClearScreen()
 {
@@ -47,23 +44,11 @@ void ClearScreen()
     COORD cursorPosition;   cursorPosition.X = 0;   cursorPosition.Y = 0;   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
 }
 
-
-//
-//for (size_t i = 0; i < length; i++)
-//{
-//
-//}
-
-
-
 void SpawnFood()
 {
     number = rand() % 2;
 
     cout << number;
-
-
-
     if (number == 0)
     {
         Food* tmpFood = new Food;
@@ -75,8 +60,6 @@ void SpawnFood()
         cout << tmpFood->foodX << "-x";
         cout << "\n";
         cout << tmpFood->foodY << "-y";
-
-
     }
 
     else if (number == 1)
@@ -91,8 +74,6 @@ void SpawnFood()
         cout << "\n";
         cout << tmpFoodH->foodY << "-y";
     }
-
-
 }
 
 
@@ -104,10 +85,10 @@ void RemoveFood()
 
 }
 
-void RemoveFoodH(HealthFood food)
-{
-
-}
+//void RemoveFoodH(HealthFood food)
+//{
+//
+//}
 
 void Setup()
 {   // Initialize variables
@@ -156,28 +137,12 @@ void Draw() // Drawing playing field, snake and fruits
             //// Fruit
             //else if (i == foodH.foodY && k == foodH.foodX)
             //    cout << 'H';
-
-
             else if (i == foodList.at(0)->foodY && k == foodList.at(0)->foodX && foodList.at(0)->specialFruit == false)
 
                 cout << '*';
-
-
             else if (i == foodList.at(0)->foodY && k == foodList.at(0)->foodX && foodList.at(0)->specialFruit == true)
 
                 cout << 'H';
-
-           
-            //// Fruit
-            //else if (i == food->foodY && k == food->foodX)
-
-            //    cout << '*';
-
-            //// Fruit
-            //else if (i == foodH->foodY && k == foodH->foodX)
-            //    cout << 'H';
-
-
 
             else
             {
@@ -283,25 +248,6 @@ void Logic()
         RemoveFood();
         SpawnFood();
 
-        //Standard mad spawning
-
-        //number = rand() % 2;
-
-        //cout << number;
-
-        //if (number == 1)
-        //{
-        //    food.spawn_food();
-        //    cout << "test1";
-        //}
-
-        //else
-        //{
-        //    foodH.spawn_food();
-        //    cout << "test2";
-        //}
-
-
         // Generate new fruit position if it consides with snake's tail position 
         for (int i = 0; i < snake->tailLength;)
         {
@@ -319,7 +265,6 @@ void Logic()
         EatSound();
         snake->tailLength++;
     }
-
     snake->wall_collision();
 }
 
@@ -333,9 +278,6 @@ void PlayGame()
     while (!gameOver) // Game mainloop
     {
         Draw();
-
-        
-
         if (score >= 200)
         {
             snake->speed_fast();
@@ -348,7 +290,6 @@ void PlayGame()
         {
             snake->speed_slow();
         }
-
         snake->input_move();
 
         Logic();
