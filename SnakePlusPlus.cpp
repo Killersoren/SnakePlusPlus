@@ -1,23 +1,383 @@
-// SnakePlusPlus.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <windows.h>
+#include <ctime>
 
+#include "Snake.h"
+#include "Food.h"
+#include "HealthFood.h"
+#include "Constants.h"
+#include <irrKlang.h>
+#include <vector>
+
+using namespace irrklang;
 using namespace std;
+
+// Variables and arrays declaration
+int choice;
+int score;
+
+bool invalidCoord;
+bool gameOver;
+
+Snake *snake = new Snake();
+
+Food* food = new Food;
+HealthFood* foodH = new HealthFood;
+
+int ba = *snake->health;
+
+// Failed attempt to make menu items into pointers
+//string *a = new string("0. Quit");
+//string *b = new string("1. Play Game");
+
+int number;
+
+vector<Food*> foodList;
+vector<int> intList;
+
+
+ISoundEngine* engine = createIrrKlangDevice();
+
+
+void ClearScreen()
+{
+    // Function which cleans the screen without flickering
+    COORD cursorPosition;   cursorPosition.X = 0;   cursorPosition.Y = 0;   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
+}
+
+
+//
+//for (size_t i = 0; i < length; i++)
+//{
+//
+//}
+
+
+
+void SpawnFood()
+{
+    number = rand() % 2;
+
+    cout << number;
+
+
+
+    if (number == 0)
+    {
+        Food* tmpFood = new Food;
+
+        foodList.push_back(tmpFood);
+
+        //food.spawn_food();
+
+        tmpFood->spawn_food();
+        cout << tmpFood->foodX;
+        cout << tmpFood->foodY;
+
+        cout << "test1 \n";
+
+    }
+
+    else if (number == 1)
+    {
+        HealthFood* tmpFoodH = new HealthFood;
+
+        foodList.push_back(tmpFoodH);
+
+        //foodH.spawn_food();
+        tmpFoodH->spawn_food();
+        cout << "test2 \n";
+
+
+    }
+
+
+}
+
+
+void RemoveFood()
+{
+    delete foodList.at(0);
+    foodList.at(0) = NULL;
+    foodList.pop_back();
+
+}
+
+void RemoveFoodH(HealthFood food)
+{
+
+}
+
+void Setup()
+{   // Initialize variables
+    gameOver = false;
+
+    cout << foodList.capacity();
+
+    srand(time(NULL));
+
+
+
+    //food.spawn_food();
+
+
+    score = 0;
+}
+
+void Draw() // Drawing playing field, snake and fruits
+{
+    ClearScreen();
+
+    cout << "\n\n\n\t\t\t\t\t";
+
+    // Draws top border
+    for (int i = 0; i < width + 2; i++)
+        cout << '-';
+    cout << endl;
+
+    for (int i = 0; i < height; i++)
+    {
+        cout << "\t\t\t\t\t";
+        for (int k = 0; k < width; k++)
+        {
+            // Left border
+            if (k == 0)
+                cout << '|';
+            // Snake's head
+            if (i == snake->y && k == snake->x)
+                cout << '@';
+
+            //// Fruit
+            //else if (i == food.foodY && k == food.foodX)
+
+            //    cout << '*';
+
+            //// Fruit
+            //else if (i == foodH.foodY && k == foodH.foodX)
+            //    cout << 'H';
+
+
+            else if (i == foodList.at(0)->foodY && k == foodList.at(0)->foodX && foodList.at(0)->specialFruit == false)
+
+                cout << '*';
+
+
+            else if (i == foodList.at(0)->foodY && k == foodList.at(0)->foodX && foodList.at(0)->specialFruit == true)
+
+                cout << 'H';
+
+
+            //// Fruit
+            //else if (i == food->foodY && k == food->foodX)
+
+            //    cout << '*';
+
+            //// Fruit
+            //else if (i == foodH->foodY && k == foodH->foodX)
+            //    cout << 'H';
+
+
+
+            else
+            {
+                // Checks if there is a tail block with appropriate coordinates and draws it 
+                bool printTail = false;
+                for (int j = 0; j < snake->tailLength; j++)
+                {
+                    if (snake->tailX[j] == k && snake->tailY[j] == i)
+                    {
+                        cout << 'o';
+                        printTail = true;
+                    }
+                }
+
+                // Draws blank space if there is nothing to display
+                if (!printTail)
+                    cout << ' ';
+            }
+
+            // Right border
+            if (k == width - 1)
+                cout << '|';
+        }
+        cout << endl;
+    }
+
+    // Draws bottom border
+    cout << "\t\t\t\t\t";
+    for (int i = 0; i < width + 2; i++)
+        cout << '-';
+    cout << endl;
+
+    // Displays player's score
+    //cout << "\t\t\t\t\t";
+    cout << "\t\t\t\t\tScore: " << score;
+
+    // Display player's health
+    cout << "\t\t\t Health: " << ba << endl;
+
+}
+
+void EatSound()
+{
+
+    ////engine->play2D("TrumpTale.wav");
+    //engine->play2D("Inception.mp3");
+
+
+
+    engine->play2D("bell.wav");
+
+    //int tmp;
+    //cout << "Press 1 + enter to exit";
+    //cin >> tmp;
+  //  engine->drop();
+
+
+
+}
+
+void Logic()
+{
+    snake->tail_logic();
+
+    snake->move_snake();
+
+    if (snake->tail_collision())
+    {
+        ba--;
+
+        if (ba <= -1)
+            gameOver = true;
+    }
+
+    // Detects collision with a fruit
+    if (snake->x == foodList.at(0)->foodX && snake->y == foodList.at(0)->foodY || snake->x == foodH->foodX && snake->y == foodH->foodY)
+    {
+        if (foodList.at(0)->specialFruit)
+        {
+            if (ba < 5)
+            {
+                ba += 1;
+            }
+            else
+            {
+                score += 5;
+            }
+        }
+        else
+        {
+            score += 10;
+        }
+        RemoveFood();
+        SpawnFood();
+
+        //Standard mad spawning
+
+        //number = rand() % 2;
+
+        //cout << number;
+
+        //if (number == 1)
+        //{
+        //    food.spawn_food();
+        //    cout << "test1";
+        //}
+
+        //else
+        //{
+        //    foodH.spawn_food();
+        //    cout << "test2";
+        //}
+
+
+        // Generate new fruit position if it consides with snake's tail position 
+        for (int i = 0; i < snake->tailLength;)
+        {
+            invalidCoord = false;
+            if (snake->tailX[i] == food->foodX && snake->tailY[i] == food->foodY || snake->tailX[i] == foodH->foodX && snake->tailY[i] == foodH->foodY)
+            {
+                invalidCoord = true;
+                //food.spawn_food();
+                SpawnFood();
+                break;
+            }
+            if (!invalidCoord)
+                i++;
+        }
+        EatSound();
+        snake->tailLength++;
+    }
+
+    snake->wall_collision();
+}
+
+void PlayGame()
+{
+    //std::cout << "Game started\n";
+
+    Setup();
+
+    SpawnFood();
+
+    while (!gameOver) // Game mainloop 
+    {
+        Draw();
+
+        if (score >= 200)
+        {
+            snake->speed_fast();
+        }
+        else if (score >= 100)
+        {
+            snake->speed_moderat();
+        }
+        else
+        {
+            snake->speed_slow();
+        }
+
+        snake->input_move();
+
+        Logic();
+    }
+}
 
 int main()
 {
-    cout << "Hello Arne!\n";
-    cout << "host";
+    // Failed attempt to make menu items into pointers
+    /*string *a = new string("0. Quit");
+    string *b = new string("1. Play Game");*/
+
+    //Main menu
+    do
+    {
+        // Failed attempt to make menu items into pointers
+        //std::cout << a << std::endl << b;
+        std::cout << "0. Quit" << std::endl << "Play Game";
+        std::cin >> choice;
+
+        // Failed attempt to make menu items into pointers
+        /*delete a;
+        delete b;*/
+
+        switch (choice)
+        {
+        case 0:
+            std::cout << "Quitting game\n";
+            return 0;
+        case 1:
+        {
+            if (snake)
+                delete snake;
+
+            snake = new Snake();
+
+            PlayGame();
+        }
+        break;
+        }
+    }
+
+    while (choice != 0);
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
