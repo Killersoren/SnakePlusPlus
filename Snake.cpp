@@ -20,6 +20,7 @@ Snake::Snake()
 
 Snake::~Snake()
 {
+    std::cout << "Destructor called";
     delete health;
 }
 

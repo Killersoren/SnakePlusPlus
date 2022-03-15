@@ -14,8 +14,11 @@ int score;
 bool invalidCoord;
 bool gameOver;
 
-Snake snake;
+Snake *snake = new Snake();
+
 Food food;
+
+int ba = *snake->health;
 
 void ClearScreen()
 {
@@ -55,7 +58,7 @@ void Draw() // Drawing playing field, snake and fruits
             if (k == 0)
                 cout << '|';
             // Snake's head
-            if (i == snake.y && k == snake.x)
+            if (i == snake->y && k == snake->x)
                 cout << '@';
 
             // Fruit
@@ -66,9 +69,9 @@ void Draw() // Drawing playing field, snake and fruits
             {
                 // Checks if there is a tail block with appropriate coordinates and draws it 
                 bool printTail = false;
-                for (int j = 0; j < snake.tailLength; j++)
+                for (int j = 0; j < snake->tailLength; j++)
                 {
-                    if (snake.tailX[j] == k && snake.tailY[j] == i)
+                    if (snake->tailX[j] == k && snake->tailY[j] == i)
                     {
                         cout << 'o';
                         printTail = true;
@@ -98,41 +101,37 @@ void Draw() // Drawing playing field, snake and fruits
     cout << "\t\t\t\t\tScore: " << score;
 
     // Display player's health
-    int ba = *snake.health;
+    //int ba = *snake->health;
     cout << "\t\t\t Health: " << ba << endl;
 
 }
 
 void Logic()
 {
+    snake->tail_logic();
 
-    /*if (ba <= 0)
-        snake.~Snake();*/
+    snake->move_snake();
 
-    snake.tail_logic();
-
-    snake.move_snake();
-
-    if (snake.tail_collision())
+    if (snake->tail_collision())
     {
-        snake.health--;
+        ba--;
         
-        if (snake.health <= 0)
+        if (ba <= -1)
             gameOver = true;
     }
 
     // Detects collision with a fruit
-    if (snake.x == food.foodX && snake.y == food.foodY)
+    if (snake->x == food.foodX && snake->y == food.foodY)
     {
         score += 10;
 
         food.spawn_food();
 
         // Generate new fruit position if it consides with snake's tail position 
-        for (int i = 0; i < snake.tailLength;)
+        for (int i = 0; i < snake->tailLength;)
         {
             invalidCoord = false;
-            if (snake.tailX[i] == food.foodX && snake.tailY[i] == food.foodY)
+            if (snake->tailX[i] == food.foodX && snake->tailY[i] == food.foodY)
             {
                 invalidCoord = true;
                 food.spawn_food();
@@ -141,10 +140,10 @@ void Logic()
             if (!invalidCoord)
                 i++;
         }
-        snake.tailLength++;
+        snake->tailLength++;
     }
 
-    snake.wall_collision();
+    snake->wall_collision();
 }
 
 void PlayGame() 
@@ -158,18 +157,18 @@ void PlayGame()
 
         if (score >= 200)
         {
-            snake.speed_fast();
+            snake->speed_fast();
         }
         else if (score >= 100)
         {
-            snake.speed_moderat();
+            snake->speed_moderat();
         }
         else
         {
-            snake.speed_slow();
+            snake->speed_slow();
         }
 
-        snake.input_move();
+        snake->input_move();
 
         Logic();
     }
@@ -177,52 +176,30 @@ void PlayGame()
 
 int main()
 {
-    //do
-    //{
-    //    std::cout << "0. Quit" << std::endl << "1. Play Game\n";
-    //    std::cin >> choice;
+    do
+    {
+        std::cout << "0. Quit" << std::endl << "1. Play Game\n";
+        std::cin >> choice;
 
-    //    switch (choice)
-    //    {
-    //        case 0:
-    //            std::cout << "Quitting game\n";
-    //            return 0;
-    //        case 1:
-    //        {
-    //            //ClearScreen();
+        switch (choice)
+        {
+            case 0:
+                std::cout << "Quitting game\n";
+                return 0;
+            case 1:
+            {
+                if (snake)
+                    delete snake;
 
-    //            PlayGame();
-    //        }
-    //        break;
-    //    }
-    //}
+                snake = new Snake();
 
-    //while (choice != 0);
+                PlayGame();
+            }
+            break;
+        }
+    }
+
+    while (choice != 0);
 
     PlayGame();
-
-
-    //while (!gameOver && choice != 0); // Game mainloop 
-    //{
-    //    Draw();
-
-    //    if (score >= 200)
-    //    {
-    //        snake.speed_fast();
-    //    }
-    //    else if (score >= 100)
-    //    {
-    //        snake.speed_moderat();
-    //    }
-    //    else
-    //    {
-    //        snake.speed_slow();
-    //    }
-
-    //    snake.input_move();
-
-    //    Logic();
-    //}
-
-    //return 0;
 }
