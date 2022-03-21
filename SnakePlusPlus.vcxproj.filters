@@ -18,10 +18,13 @@
     <ClCompile Include="SnakePlusPlus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Snake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Food.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Snake.cpp">
+    <ClCompile Include="HealthFood.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InfoBox.cpp">
@@ -29,13 +32,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Food.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Snake.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Food.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthFood.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InfoBox.h">

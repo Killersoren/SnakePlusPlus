@@ -10,12 +10,18 @@ Snake::Snake()
     dir = STOP;
     x = width / 2;
     y = height / 2;
-    health = 3;
+}
+
+Snake::~Snake()
+{
+    std::cout << "\t\t\t\t\t\t\t\t\t\t\t" << "Snake Destructor called" << "\n";
+    delete health;
 }
 
 void Snake::move_snake()
 {
     // Changes snake's head coordinates depending on a direction
+    
     switch (dir)
     {
     case LEFT:
@@ -62,12 +68,9 @@ void Snake::input_move()
 
 void Snake::tail_logic()
 {
-    // Tail logic. Every new eteration we remember previous position of the head and save it to prevX, prevY.
-    // Then we update array with snake's parts positions (change first numbers in arrays tailX, tailY to a new head coordinates).
-    // And after that for each number in arrays except the first ones we make some changes.
-    // Save tailX[i], tailY[i] to prevX2, prevY2 and equate tailX[i], tailY[i] to prevX, prevY.
-    // And equate prevX, prevY to prevX2, prevY2.
-    // Then change rest of the arrays in the same way.
+    // Tail logic. Every new eteration the previous position of the head will be remembered and save it to prevX, prevY.
+    // Then the array with snake's parts positions is updated (change the first numbers in arrays tailX, tailY to a new head coordinates).
+    // Save tailX[i], tailY[i] to prevX2, prevY2 and equate tailX[i], tailY[i] to prevX, prevY and equate prevX, prevY to prevX2, prevY2.
 
     int prevX = tailX[0];
     int prevY = tailY[0];

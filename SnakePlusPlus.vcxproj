@@ -120,6 +120,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>irrKlang.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,10 +137,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>irrKlang.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Food.cpp" />
+    <ClCompile Include="HealthFood.cpp" />
     <ClCompile Include="InfoBox.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="SnakePlusPlus.cpp" />
@@ -147,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Food.h" />
+    <ClInclude Include="HealthFood.h" />
     <ClInclude Include="InfoBox.h" />
     <ClInclude Include="Snake.h" />
   </ItemGroup>
